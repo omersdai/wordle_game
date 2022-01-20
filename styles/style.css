@@ -15,6 +15,14 @@
           align-items: center;
 }
 
+.wordle-container .guesses .error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -57,6 +65,7 @@ body {
 }
 
 .wordle-container .guesses {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -65,7 +74,7 @@ body {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 5px;
-  margin-bottom: 30px;
+  margin: 30px 0px;
 }
 
 .wordle-container .guesses .row {
@@ -75,11 +84,49 @@ body {
   gap: 5px;
 }
 
+.wordle-container .guesses .error {
+  padding: 20px 30px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  -webkit-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
+}
+
+.wordle-container .guesses .error.hidden {
+  opacity: 0;
+}
+
 .wordle-container .guesses .square {
   height: 60px;
   width: 60px;
-  border: 2px solid black;
+  border: 2px solid #c0bfbf;
   border-radius: 3px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.wordle-container .guesses .square.active {
+  border-color: black;
+}
+
+.wordle-container .guesses .square.grey {
+  border: none;
+  background-color: #6b6b6b;
+  color: #fff;
+}
+
+.wordle-container .guesses .square.yellow {
+  border: none;
+  background-color: #cfcf1e;
+  color: #fff;
+}
+
+.wordle-container .guesses .square.green {
+  border: none;
+  background-color: #33b933;
+  color: #fff;
 }
 
 .wordle-container .keyboard {
@@ -107,6 +154,7 @@ body {
   height: 50px;
   width: 50px;
   background-color: #c0bfbf;
+  font-size: 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -128,6 +176,7 @@ body {
 
 .wordle-container .keyboard .key.large {
   width: 70px;
+  font-size: 15px;
 }
 
 .wordle-container .keyboard .key.large i {
