@@ -17,7 +17,8 @@
   <body>
     <div class="wordle-container">
       <div class="header">
-        <h1>Wordle</h1>
+        <h1 id="resetBtn">Wordle</h1>
+        <!-- <button id="resetBtn" class="reset-btn">New Game</button> -->
       </div>
       <div id="guess" class="guesses">
         <!-- <div class="row">
@@ -41,7 +42,7 @@
           <div class="square"></div>
           <div class="square"></div>
         </div> -->
-        <div id="error" class="error hidden">Not enough words!</div>
+        <div id="error" class="error hidden"></div>
       </div>
 
       <div class="keyboard">
@@ -71,7 +72,7 @@
           <button class="key">İ</button>
         </div>
         <div class="row">
-          <button class="key large">ENTER</button>
+          <button id="enterBtn" class="large-key">ENTER</button>
           <button class="key">Z</button>
           <button class="key">C</button>
           <button class="key">V</button>
@@ -80,7 +81,7 @@
           <button class="key">M</button>
           <button class="key">Ö</button>
           <button class="key">Ç</button>
-          <button class="key large">
+          <button id="backspaceBtn" class="large-key">
             <i class="fas fa-backspace"></i>
           </button>
         </div>

@@ -1,44 +1,52 @@
+const resetBtn = document.getElementById('resetBtn');
 const guessEl = document.getElementById('guess');
-const keyElements = document.querySelectorAll('.key');
 const errorEl = document.getElementById('error');
+const keyElements = document.querySelectorAll('.key');
 
 const guessCount = 6;
 const wordleLength = 5;
 const alphabetSet = new Set(alphabet);
-const worldeSet = new Set(wordleWords);
+const wordleSet = new Set(wordleWords);
+const squares = [];
+const keyMap = {};
 
 let wordleWord;
-let guess; // number of guesses so far
+let guess; // number of guess attempts
 let wordIdx;
-let squares;
 let gameOver;
 
 function initializeGame() {
   for (let i = 0; i < guessCount; i++) {
+    const row = [];
     const rowEl = document.createElement('div');
     rowEl.className = 'row';
     for (let j = 0; j < wordleLength; j++) {
       const squareEl = document.createElement('div');
       squareEl.className = 'square';
+      row.push(squareEl);
       rowEl.appendChild(squareEl);
     }
+    squares.push(row);
     guessEl.appendChild(rowEl);
   }
 
-  startGame();
+  resetGame();
 }
 
-function startGame() {
-  //   wordleWord = wordleWords[Math.floor(Math.random() * wordleWords.length)];
-  wordleWord = 'ROBOT';
+function resetGame() {
+  wordleWord = wordleWords[Math.floor(Math.random() * wordleWords.length)];
   guess = 0;
   wordIdx = 0;
-  squares = [];
   gameOver = false;
 
-  guessEl
-    .querySelectorAll('.row')
-    .forEach((row) => squares.push(row.querySelectorAll('.square')));
+  squares.forEach((row) =>
+    row.forEach((square) => {
+      square.className = 'square';
+      square.innerText = '';
+    })
+  );
+
+  keyElements.forEach((key) => (key.className = 'key'));
 }
 
 function enterCharacter(char) {
@@ -59,13 +67,14 @@ function removeCharacter() {
 
 function enterWord() {
   if (wordIdx < wordleLength) {
-    showError('Not enough words!');
+    showMessage('Not enough words!');
     return;
   }
   word = '';
   squares[guess].forEach((square) => (word += square.innerText));
-  if (!worldeSet.has(word)) {
-    showError(word + ' is not a word!');
+  if (!wordleSet.has(word)) {
+    showMessage(word + ' is not a word!');
+    return;
   }
 
   checkWord(word);
@@ -73,11 +82,11 @@ function enterWord() {
   wordIdx = 0;
   if (word === wordleWord) {
     // correctly guessed
-    showError('won!!!');
+    showMessage('You won!', 5000);
     gameOver = true;
   } else if (guess == guessCount) {
     // out of guesses, lost
-    showError('lost!!!');
+    showMessage(`You lost! The correct word was ${wordleWord}.`, 6000);
     gameOver = true;
   }
 }
@@ -93,11 +102,13 @@ function checkWord(word) {
     freqTable[corr] = freqTable[corr] === undefined ? 1 : freqTable[corr] + 1;
     if (char === corr) {
       square.className = 'square green';
+      changeKeyColor(char, 'green');
       freqTable[char] = freqTable[char] - 1;
     } else if (wordleWord.includes(char)) {
       yellowSquares.push(square); // potentially yellow or grey
     } else {
       square.className = 'square grey';
+      changeKeyColor(char, 'grey');
     }
   }
   yellowSquares.forEach((square) => {
@@ -105,33 +116,77 @@ function checkWord(word) {
     if (freqTable[char] > 0) {
       freqTable[char] = freqTable[char] - 1;
       square.className = 'square yellow';
+      changeKeyColor(char, 'yellow');
     } else {
       square.className = 'square grey';
+      changeKeyColor(char, 'grey');
     }
   });
 }
 
-function showError(text) {
-  errorEl.innerText = text;
-  errorEl.classList.remove('hidden');
-  setTimeout(() => errorEl.classList.add('hidden'), 2000);
-}
-
-function keyPressed(e) {
-  let text = e.currentTarget.innerText;
-  if (text.length === 5) {
-    enterWord();
-  } else if (text.length === 0) {
-    removeCharacter();
-  } else {
-    enterCharacter(text);
+function changeKeyColor(char, color) {
+  const keyEl = keyMap[char];
+  if (color === 'green') {
+    keyEl.className = 'key green';
+  } else if (color === 'yellow' && !keyEl.classList.contains('green')) {
+    keyEl.className = 'key yellow';
+  } else if (
+    color === 'grey' &&
+    !keyEl.classList.contains('green') &&
+    !keyEl.classList.contains('yellow')
+  ) {
+    keyEl.className = 'key grey';
   }
 }
 
-keyElements.forEach((key) => key.addEventListener('click', keyPressed));
+function showMessage(text, duration = 2000) {
+  errorEl.innerText = text;
+  errorEl.classList.remove('hidden');
+  setTimeout(() => errorEl.classList.add('hidden'), duration);
+}
+
+function keyClicked(e) {
+  let text = e.currentTarget.innerText;
+  enterCharacter(text);
+}
+
+function keyPressed(e) {
+  switch (e.key) {
+    case 'Enter':
+      enterWord();
+      break;
+    case 'Backspace':
+      removeCharacter();
+      break;
+    case 'i':
+      enterCharacter('İ');
+      break;
+    default:
+      enterCharacter(e.key);
+  }
+}
+
+document.addEventListener('keydown', keyPressed);
+keyElements.forEach((key) => {
+  key.addEventListener('click', keyClicked);
+  keyMap[key.innerText] = key;
+});
+enterBtn.addEventListener('click', enterWord);
+backspaceBtn.addEventListener('click', removeCharacter);
+resetBtn.addEventListener('click', resetGame);
 
 function isTurkishCharacter(char) {
-  return char.length === 1 && alphabetSet.has(char.toLowerCase());
+  return (
+    (char.length === 1 && alphabetSet.has(char.toLowerCase())) || char === 'I'
+  );
 }
 
 initializeGame();
+
+// console.log('ı', 'i');
+// console.log('ı' === 'i');
+// console.log('ı'.toUpperCase() === 'i'.toUpperCase());
+// console.log('İ', 'I');
+// console.log('İ' === 'I');
+// console.log('İ'.toLowerCase(), 'I'.toLowerCase());
+// console.log('İ'.toLowerCase() === 'I'.toLowerCase());

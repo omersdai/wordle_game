@@ -5,6 +5,9 @@ $primaryColor: steelblue;
 $gap: 5px;
 $squareSize: 60px;
 $keyColor: rgb(192, 191, 191);
+$correctColor: rgb(51, 185, 51);
+$misplacedColor: rgb(207, 207, 30);
+$absentColor: rgb(58, 58, 58);
 $border: 2px solid $keyColor;
 
 * {
@@ -30,6 +33,18 @@ body {
   flex-direction: column;
   align-items: center;
   margin: 30px 0px;
+
+  h1 {
+    cursor: pointer;
+    &:active {
+      transform: scale(95%);
+    }
+
+    &:hover {
+      color: gray;
+    }
+  }
+
   .guesses {
     position: relative;
     display: flex;
@@ -50,6 +65,7 @@ body {
       border-radius: 10px;
       transition: 0.5s ease-in;
     }
+
     .error.hidden {
       opacity: 0;
     }
@@ -70,17 +86,17 @@ body {
 
     .square.grey {
       border: none;
-      @include set-background(rgb(107, 107, 107));
+      @include set-background($absentColor);
     }
 
     .square.yellow {
       border: none;
-      @include set-background(rgb(207, 207, 30));
+      @include set-background($misplacedColor);
     }
 
     .square.green {
       border: none;
-      @include set-background(rgb(51, 185, 51));
+      @include set-background($correctColor);
     }
   }
 
@@ -118,7 +134,23 @@ body {
       }
     }
 
-    .key.large {
+    .key.grey {
+      border: none;
+      @include set-background($absentColor);
+    }
+
+    .key.yellow {
+      border: none;
+      @include set-background($misplacedColor);
+    }
+
+    .key.green {
+      border: none;
+      @include set-background($correctColor);
+    }
+
+    .large-key {
+      @extend %key;
       width: 70px;
       font-size: 15px;
 
