@@ -118,6 +118,8 @@ body {
   border-radius: 3px;
   font-weight: bold;
   font-size: 25px;
+  -webkit-transition: 0.1s ease-in;
+  transition: 0.1s ease-in;
 }
 
 .wordle-container .guesses .square.active {
@@ -163,7 +165,7 @@ body {
   gap: 5px;
 }
 
-.wordle-container .keyboard .key {
+.wordle-container .keyboard .key, .wordle-container .keyboard .large-key {
   height: 50px;
   width: 50px;
   background-color: #c0bfbf;
@@ -173,64 +175,55 @@ body {
   cursor: pointer;
 }
 
-.wordle-container .keyboard .key:active {
+.wordle-container .keyboard .key:active, .wordle-container .keyboard .large-key:active {
   -webkit-transform: scale(95%);
           transform: scale(95%);
 }
 
-.wordle-container .keyboard .key:hover {
+.wordle-container .keyboard .key:hover, .wordle-container .keyboard .large-key:hover {
   -webkit-filter: brightness(0.95);
           filter: brightness(0.95);
 }
 
-.wordle-container .keyboard .key:disabled {
+.wordle-container .keyboard .key:disabled, .wordle-container .keyboard .large-key:disabled {
   cursor: default;
 }
 
-.wordle-container .keyboard .key.grey {
+.wordle-container .keyboard .key.grey, .wordle-container .keyboard .grey.large-key {
   border: none;
   background-color: #3a3a3a;
   color: #fff;
 }
 
-.wordle-container .keyboard .key.yellow {
+.wordle-container .keyboard .key.yellow, .wordle-container .keyboard .yellow.large-key {
   border: none;
   background-color: #cfcf1e;
   color: #fff;
 }
 
-.wordle-container .keyboard .key.green {
+.wordle-container .keyboard .key.green, .wordle-container .keyboard .green.large-key {
   border: none;
   background-color: #33b933;
   color: #fff;
 }
 
 .wordle-container .keyboard .large-key {
-  height: 50px;
   width: 70px;
-  background-color: #c0bfbf;
   font-size: 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.wordle-container .keyboard .large-key:active {
-  -webkit-transform: scale(95%);
-          transform: scale(95%);
-}
-
-.wordle-container .keyboard .large-key:hover {
-  -webkit-filter: brightness(0.95);
-          filter: brightness(0.95);
-}
-
-.wordle-container .keyboard .large-key:disabled {
-  cursor: default;
 }
 
 .wordle-container .keyboard .large-key i {
   font-size: 22px;
   color: #757575;
+}
+
+.enlarge {
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.shrink {
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
 }
 /*# sourceMappingURL=style.css.map */

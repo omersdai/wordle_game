@@ -75,9 +75,9 @@ body {
       border: $border;
       border-radius: 3px;
       @extend %flex-center;
-
       font-weight: bold;
       font-size: 25px;
+      transition: 0.1s ease-in;
     }
 
     .square.active {
@@ -150,7 +150,7 @@ body {
     }
 
     .large-key {
-      @extend %key;
+      @extend .key;
       width: 70px;
       font-size: 15px;
 
@@ -160,4 +160,12 @@ body {
       }
     }
   }
+}
+
+.enlarge {
+  transform: scale(1.05);
+}
+
+.shrink {
+  transform: scale(0.9);
 }

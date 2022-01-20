@@ -9,6 +9,7 @@ const alphabetSet = new Set(alphabet);
 const wordleSet = new Set(wordleWords);
 const squares = [];
 const keyMap = {};
+const animationSpeed = 300;
 
 let wordleWord;
 let guess; // number of guess attempts
@@ -56,6 +57,9 @@ function enterCharacter(char) {
   const square = squares[guess][wordIdx++];
   square.innerText = char;
   square.classList.add('active');
+  square.classList.add('enlarge');
+  setTimeout(() => square.classList.remove('enlarge'), animationSpeed);
+  keyMap[char].classList.add('shrink');
 }
 
 function removeCharacter() {
@@ -166,7 +170,14 @@ function keyPressed(e) {
   }
 }
 
+function keyUp(e) {
+  const char = e.key === 'i' ? 'İ' : e.key.toUpperCase();
+  if (keyMap[char] === undefined) return;
+  keyMap[char].classList.remove('shrink');
+}
+
 document.addEventListener('keydown', keyPressed);
+document.addEventListener('keyup', keyUp);
 keyElements.forEach((key) => {
   key.addEventListener('click', keyClicked);
   keyMap[key.innerText] = key;
